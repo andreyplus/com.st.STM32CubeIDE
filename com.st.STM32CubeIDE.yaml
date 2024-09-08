@@ -56,7 +56,14 @@ modules:
     build-options:
       no-debuginfo: true
       no-debuginfo-compression: true
+      build-args:
+        - --share=network
     build-commands:
+      - "curl 'https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group1/d3/77/3e/45/79/2b/47/46/stm32cubeide-lnx/files/st-stm32cubeide_1.16.0_21983_20240628_1741_amd64.sh.zip/jcr:content/translations/en.st-stm32cubeide_1.16.0_21983_20240628_1741_amd64.sh.zip' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0' -H 'Accept-Encoding: identity' -O"
+      - unzip en.st-stm32cubeide_1.16.0_21983_20240628_1741_amd64.sh.zip -d .
+      - "curl 'https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group0/98/41/e8/53/44/80/41/92/st-link-server-v2-1-1/files/st-link-server-v2-1-1.zip/jcr:content/translations/en.st-link-server-v2-1-1.zip' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0' -H 'Accept-Encoding: identity' -O"
+      - unzip en.st-link-server-v2-1-1.zip -d .
+      - mv ./en.st-link-server_v2.1.1-2/st-stlink-server.2.1.1-1-linux-amd64.install.sh .
       - mkdir ${FLATPAK_DEST}/stm32cubeide
       - chmod +x st-stlink-server.2.1.1-1-linux-amd64.install.sh
       - ./st-stlink-server.2.1.1-1-linux-amd64.install.sh --tar -xvf
@@ -69,12 +76,6 @@ modules:
       - install -t ${FLATPAK_DEST}/share/appdata/ -Dm644 com.st.STM32CubeIDE.metainfo.xml
       - install -t ${FLATPAK_DEST}/bin -Dm755 stm32cubeide
     sources:
-      - type: archive
-        url: https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group1/d3/77/3e/45/79/2b/47/46/stm32cubeide-lnx/files/st-stm32cubeide_1.16.0_21983_20240628_1741_amd64.sh.zip/jcr:content/translations/en.st-stm32cubeide_1.16.0_21983_20240628_1741_amd64.sh.zip
-        sha256: 831522a542c162295336ea2ca93fc5793c2888e3a4f385b327b9dd88bc1bdd0f
-      - type: archive
-        url: https://www.st.com/content/ccc/resource/technical/software/sw_development_suite/group0/98/41/e8/53/44/80/41/92/st-link-server-v2-1-1/files/st-link-server-v2-1-1.zip/jcr:content/translations/en.st-link-server-v2-1-1.zip
-        sha256: a84a0ada7c9b6343e559dacd37e42a815c500d0f4a517db3d1e511d056903bf6
       - type: file
         path: com.st.STM32CubeIDE.metainfo.xml
       - type: file
