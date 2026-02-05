@@ -32,16 +32,16 @@ modules:
       - ./st-stlink-server.2.1.1-1-linux-amd64.install.sh --tar -xvf
       - mkdir ${FLATPAK_DEST}/bin
       - mv stlink-server ${FLATPAK_DEST}/bin/stlink-server
-      - chmod +x st-stm32cubeide_1.18.0_24413_20250227_1633_amd64.sh
-      - ./st-stm32cubeide_1.18.0_24413_20250227_1633_amd64.sh --tar -xvf
-      - tar -xzvf st-stm32cubeide_1.18.0_24413_20250227_1633_amd64.tar.gz -C ${FLATPAK_DEST}/stm32cubeide/
+      - chmod +x st-stm32cubeide_1.19.0_25607_20250703_0907_amd64.sh
+      - ./st-stm32cubeide_1.19.0_25607_20250703_0907_amd64.sh --tar -xvf
+      - tar -xzvf st-stm32cubeide_1.19.0_25607_20250703_0907_amd64.tar.gz -C ${FLATPAK_DEST}/stm32cubeide/
       - install -D icon.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
       - install -t ${FLATPAK_DEST}/share/applications/ -Dm644 com.st.STM32CubeIDE.desktop
       - install -t ${FLATPAK_DEST}/share/appdata/ -Dm644 com.st.STM32CubeIDE.metainfo.xml
       - install -t ${FLATPAK_DEST}/bin -Dm755 stm32cubeide
     sources:
       - type: archive
-        path: en.st-stm32cubeide_1.18.0_24413_20250227_1633_amd64.sh.zip
+        path: st-stm32cubeide_1.19.0_25607_20250703_0907_amd64.sh.zip
       - type: archive
         path: en.st-link-server-v2-1-1.zip
       - type: file
