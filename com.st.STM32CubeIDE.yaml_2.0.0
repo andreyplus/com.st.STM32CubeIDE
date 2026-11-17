@@ -1,0 +1,55 @@
+app-id: com.st.STM32CubeIDE
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk25
+command: stm32cubeide
+finish-args:
+  - --socket=x11
+  - --socket=pulseaudio
+  - --share=network
+  - --device=all
+  - --env=PATH=/app/bin:/app/jre/bin:/usr/bin
+  - --env=JAVA_HOME=/app/jre
+  - --persist=.
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk25/installjdk.sh
+
+  - shared-modules/libusb/libusb.json
+
+  - name: stm32cubeide
+    buildsystem: simple
+    build-options:
+      no-debuginfo: true
+      no-debuginfo-compression: true
+    build-commands:
+      - mkdir ${FLATPAK_DEST}/stm32cubeide
+      - chmod +x st-stm32cubeide_2.0.0_26820_20251114_1348_amd64.sh
+      - ./st-stm32cubeide_2.0.0_26820_20251114_1348_amd64.sh --tar -xvf
+      - chmod +x st-stlink-server.2.1.1-1-linux-amd64.install.sh
+      - ./st-stlink-server.2.1.1-1-linux-amd64.install.sh --tar -xvf
+      - mkdir -p ${FLATPAK_DEST}/bin/
+      - mv stlink-server ${FLATPAK_DEST}/bin/stlink-server
+      - tar -xzvf st-stm32cubeide_2.0.0_26820_20251114_1348_amd64.tar.gz -C ${FLATPAK_DEST}/stm32cubeide/
+      - install -D icon.png ${FLATPAK_DEST}/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
+      - install -t ${FLATPAK_DEST}/share/applications/ -Dm644 com.st.STM32CubeIDE.desktop
+      - install -t ${FLATPAK_DEST}/share/appdata/ -Dm644 com.st.STM32CubeIDE.metainfo.xml
+      - install -t ${FLATPAK_DEST}/bin -Dm755 stm32cubeide
+    sources:
+      - type: archive
+        path: st-stm32cubeide_2.0.0_26820_20251114_1348_amd64.sh.zip
+      - type: file
+        path: com.st.STM32CubeIDE.metainfo.xml
+      - type: file
+        path: com.st.STM32CubeIDE.desktop
+      - type: file
+        path: icon.png
+      - type: script
+        dest-filename: stm32cubeide
+        commands:
+          - unset FLATPAK_SANDBOX_DIR
+          - exec /app/stm32cubeide/stm32cubeide "$@"
